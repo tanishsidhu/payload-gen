@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payload Gen</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { font-size: 1.25rem; }
+    textarea { width: 100%; min-height: 80px; font-size: 1rem; }
+    .row { margin: 0.75rem 0; }
+    button { padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; }
+    pre { background: #f4f4f5; padding: 1rem; overflow: auto; font-size: 0.85rem; }
+    .meta { color: #555; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>Payload Generator</h1>
+  <p class="meta">Layer A retrieval → Layer B Excel (optional) → Layer C fine-tuned model</p>
+
+  <div class="row">
+    <label for="msg"><strong>Request</strong></label><br />
+    <textarea id="msg" placeholder="e.g. book a deal for equipment AST-4421">book a new lease for equipment AST-4421</textarea>
+  </div>
+
+  <div class="row">
+    <label for="excel"><strong>Excel (optional)</strong></label><br />
+    <input type="file" id="excel" accept=".xlsx" />
+  </div>
+
+  <div class="row">
+    <button id="send">Generate payloads</button>
+  </div>
+
+  <div class="row">
+    <pre id="out">Waiting…</pre>
+  </div>
+
+  <script>
+    document.getElementById("send").onclick = async () => {
+      const out = document.getElementById("out");
+      out.textContent = "Working…";
+      const msg = document.getElementById("msg").value;
+      const file = document.getElementById("excel").files[0];
+      let resp;
+      if (file) {
+        const form = new FormData();
+        form.append("message", msg);
+        form.append("excel", file);
+        resp = await fetch("/chat", { method: "POST", body: form });
+      } else {
+        resp = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: msg }),
+        });
+      }
+      const data = await resp.json();
+      out.textContent = JSON.stringify(data, null, 2);
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+{
+  "table": [
+    {
+      "model": "base-3B",
+      "split": "unseen",
+      "rows": 800,
+      "schema_valid_pct": 0.0,
+      "exact_match_pct": 0.0,
+      "refusal_accuracy_pct": 0.0,
+      "refusal_rows": 102,
+      "distractor_rows": 185,
+      "distractor_exact_match_pct": 0.0,
+      "distractor_schema_valid_pct": 0.0,
+      "non_distractor_exact_match_pct": 0.0,
+      "cost_per_payload_usd": 0.0
+    },
+    {
+      "model": "base-3B",
+      "split": "seen",
+      "rows": 100,
+      "schema_valid_pct": 0.0,
+      "exact_match_pct": 0.0,
+      "refusal_accuracy_pct": 0.0,
+      "refusal_rows": 12,
+      "distractor_rows": 17,
+      "distractor_exact_match_pct": 0.0,
+      "distractor_schema_valid_pct": 0.0,
+      "non_distractor_exact_match_pct": 0.0,
+      "cost_per_payload_usd": 0.0
+    },
+    {
+      "model": "fine-tuned-3B",
+      "split": "unseen",
+      "rows": 800,
+      "schema_valid_pct": 94.875,
+      "exact_match_pct": 46.75,
+      "refusal_accuracy_pct": 99.01960784313725,
+      "refusal_rows": 102,
+      "distractor_rows": 185,
+      "distractor_exact_match_pct": 36.75675675675676,
+      "distractor_schema_valid_pct": 91.89189189189189,
+      "non_distractor_exact_match_pct": 49.75609756097561,
+      "cost_per_payload_usd": 0.0
+    },
+    {
+      "model": "fine-tuned-3B",
+      "split": "seen",
+      "rows": 100,
+      "schema_valid_pct": 96.0,
+      "exact_match_pct": 53.0,
+      "refusal_accuracy_pct": 100.0,
+      "refusal_rows": 12,
+      "distractor_rows": 17,
+      "distractor_exact_match_pct": 41.1764705882353,
+      "distractor_schema_valid_pct": 100.0,
+      "non_distractor_exact_match_pct": 55.42168674698795,
+      "cost_per_payload_usd": 0.0
+    }
+  ],
+  "notes": [
+    "Skipped Claude (set ANTHROPIC_API_KEY to include frontier numbers)",
+    "distractor_retrain_optional: gap=13.0"
+  ]
+}

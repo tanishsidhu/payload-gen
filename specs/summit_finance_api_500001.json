@@ -1,0 +1,157 @@
+{
+  "seed": 500001,
+  "spec": {
+    "api_name": "Summit Finance API",
+    "version": "3.6",
+    "endpoints": [
+      {
+        "operation": "amend_contract",
+        "method": "POST",
+        "path": "/api/amend-contract/submit",
+        "fields": [
+          {
+            "name": "amendment_type",
+            "type": "enum",
+            "required": true,
+            "enum": [
+              "rate_change",
+              "term_extension",
+              "party_change",
+              "covenant_update"
+            ]
+          },
+          {
+            "name": "updated_conditions",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "terms",
+            "type": "object",
+            "required": true,
+            "fields": [
+              {
+                "name": "agreement_no",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "posting_date",
+                "type": "date",
+                "required": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "operation": "create_asset",
+        "method": "POST",
+        "path": "/v1/create-asset/execute",
+        "fields": [
+          {
+            "name": "acquisition_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "acquisition_cost",
+            "type": "integer",
+            "required": true,
+            "unit": "dollars"
+          },
+          {
+            "name": "asset_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "asset_type",
+            "type": "enum",
+            "required": true,
+            "enum": [
+              "vehicle",
+              "equipment",
+              "aircraft",
+              "real_estate"
+            ]
+          }
+        ]
+      },
+      {
+        "operation": "post_receipt",
+        "method": "POST",
+        "path": "/v2/post-receipt/submit",
+        "fields": [
+          {
+            "name": "remitter_ref",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "collection_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "lease_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "receipt_amount",
+            "type": "integer",
+            "required": true,
+            "unit": "cents"
+          }
+        ]
+      },
+      {
+        "operation": "book_lease",
+        "method": "POST",
+        "path": "/book-lease/submit",
+        "fields": [
+          {
+            "name": "start_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "contract_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "lease_end",
+            "type": "date",
+            "required": false
+          },
+          {
+            "name": "monthly_payment",
+            "type": "integer",
+            "required": true,
+            "unit": "cents"
+          },
+          {
+            "name": "terms",
+            "type": "object",
+            "required": true,
+            "fields": [
+              {
+                "name": "borrower_name",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "equipment_code",
+                "type": "string",
+                "required": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "spec_text": "API: Summit Finance API v3.6\n\nPOST /api/amend-contract/submit  (amend_contract)\n  amendment_type (enum ['rate_change', 'term_extension', 'party_change', 'covenant_update'], required)\n  updated_conditions (string, optional)\n  terms (object, required):\n    agreement_no (string, required)\n    posting_date (date, required)\n\nPOST /v1/create-asset/execute  (create_asset)\n  acquisition_date (date, required)\n  acquisition_cost (integer, unit=dollars, required)\n  asset_id (string, required)\n  asset_type (enum ['vehicle', 'equipment', 'aircraft', 'real_estate'], required)\n\nPOST /v2/post-receipt/submit  (post_receipt)\n  remitter_ref (string, optional)\n  collection_date (date, required)\n  lease_id (string, required)\n  receipt_amount (integer, unit=cents, required)\n\nPOST /book-lease/submit  (book_lease)\n  start_date (date, required)\n  contract_id (string, required)\n  lease_end (date, optional)\n  monthly_payment (integer, unit=cents, required)\n  terms (object, required):\n    borrower_name (string, required)\n    equipment_code (string, required)"
+}

@@ -1,0 +1,117 @@
+{
+  "seed": 500004,
+  "spec": {
+    "api_name": "Atlas Asset API",
+    "version": "1.3",
+    "endpoints": [
+      {
+        "operation": "post_receipt",
+        "method": "POST",
+        "path": "/api/post-receipt",
+        "fields": [
+          {
+            "name": "remitter_ref",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "agreement_no",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "deposit_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "receipt_amount",
+            "type": "integer",
+            "required": true,
+            "unit": "cents"
+          }
+        ]
+      },
+      {
+        "operation": "create_asset",
+        "method": "POST",
+        "path": "/api/create-asset/execute",
+        "fields": [
+          {
+            "name": "purchase_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "purchase_price",
+            "type": "integer",
+            "required": true,
+            "unit": "cents"
+          },
+          {
+            "name": "category",
+            "type": "enum",
+            "required": true,
+            "enum": [
+              "vehicle",
+              "equipment",
+              "aircraft",
+              "real_estate"
+            ]
+          },
+          {
+            "name": "asset_tag",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "operation": "book_lease",
+        "method": "POST",
+        "path": "/api/book-lease",
+        "fields": [
+          {
+            "name": "borrower_name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "start_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "asset_tag",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "rent_amount",
+            "type": "integer",
+            "required": true,
+            "unit": "cents"
+          },
+          {
+            "name": "payment_info",
+            "type": "object",
+            "required": true,
+            "fields": [
+              {
+                "name": "contract_id",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "end_date",
+                "type": "date",
+                "required": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "spec_text": "API: Atlas Asset API v1.3\n\nPOST /api/post-receipt  (post_receipt)\n  remitter_ref (string, optional)\n  agreement_no (string, required)\n  deposit_date (date, required)\n  receipt_amount (integer, unit=cents, required)\n\nPOST /api/create-asset/execute  (create_asset)\n  purchase_date (date, required)\n  purchase_price (integer, unit=cents, required)\n  category (enum ['vehicle', 'equipment', 'aircraft', 'real_estate'], required)\n  asset_tag (string, required)\n\nPOST /api/book-lease  (book_lease)\n  borrower_name (string, required)\n  start_date (date, required)\n  asset_tag (string, required)\n  rent_amount (integer, unit=cents, required)\n  payment_info (object, required):\n    contract_id (string, required)\n    end_date (date, optional)"
+}

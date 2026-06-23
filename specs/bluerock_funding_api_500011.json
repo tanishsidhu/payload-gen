@@ -1,0 +1,157 @@
+{
+  "seed": 500011,
+  "spec": {
+    "api_name": "BlueRock Funding API",
+    "version": "2.6",
+    "endpoints": [
+      {
+        "operation": "amend_contract",
+        "method": "POST",
+        "path": "/api/amend-contract/submit",
+        "fields": [
+          {
+            "name": "modification_kind",
+            "type": "enum",
+            "required": true,
+            "enum": [
+              "rate_change",
+              "term_extension",
+              "party_change",
+              "covenant_update"
+            ]
+          },
+          {
+            "name": "agreement_no",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "details",
+            "type": "object",
+            "required": true,
+            "fields": [
+              {
+                "name": "updated_conditions",
+                "type": "string",
+                "required": false
+              },
+              {
+                "name": "posting_date",
+                "type": "date",
+                "required": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "operation": "create_asset",
+        "method": "POST",
+        "path": "/create-asset/submit",
+        "fields": [
+          {
+            "name": "asset_ref",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "purchase_price",
+            "type": "integer",
+            "required": true,
+            "unit": "cents"
+          },
+          {
+            "name": "purchase_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "asset_type",
+            "type": "enum",
+            "required": true,
+            "enum": [
+              "vehicle",
+              "equipment",
+              "aircraft",
+              "real_estate"
+            ]
+          }
+        ]
+      },
+      {
+        "operation": "post_receipt",
+        "method": "POST",
+        "path": "/v2/post-receipt/submit",
+        "fields": [
+          {
+            "name": "cash_received",
+            "type": "integer",
+            "required": true,
+            "unit": "dollars"
+          },
+          {
+            "name": "remitter_ref",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "payment_info",
+            "type": "object",
+            "required": true,
+            "fields": [
+              {
+                "name": "received_date",
+                "type": "date",
+                "required": true
+              },
+              {
+                "name": "agreement_no",
+                "type": "string",
+                "required": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "operation": "book_lease",
+        "method": "POST",
+        "path": "/book-lease/execute",
+        "fields": [
+          {
+            "name": "lease_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "lessee_name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "installment_amount",
+            "type": "integer",
+            "required": true,
+            "unit": "cents"
+          },
+          {
+            "name": "asset_ref",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "lease_end",
+            "type": "date",
+            "required": false
+          },
+          {
+            "name": "start_date",
+            "type": "date",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  "spec_text": "API: BlueRock Funding API v2.6\n\nPOST /api/amend-contract/submit  (amend_contract)\n  modification_kind (enum ['rate_change', 'term_extension', 'party_change', 'covenant_update'], required)\n  agreement_no (string, required)\n  details (object, required):\n    updated_conditions (string, optional)\n    posting_date (date, required)\n\nPOST /create-asset/submit  (create_asset)\n  asset_ref (string, required)\n  purchase_price (integer, unit=cents, required)\n  purchase_date (date, required)\n  asset_type (enum ['vehicle', 'equipment', 'aircraft', 'real_estate'], required)\n\nPOST /v2/post-receipt/submit  (post_receipt)\n  cash_received (integer, unit=dollars, required)\n  remitter_ref (string, optional)\n  payment_info (object, required):\n    received_date (date, required)\n    agreement_no (string, required)\n\nPOST /book-lease/execute  (book_lease)\n  lease_id (string, required)\n  lessee_name (string, required)\n  installment_amount (integer, unit=cents, required)\n  asset_ref (string, required)\n  lease_end (date, optional)\n  start_date (date, required)"
+}

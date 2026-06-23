@@ -1,0 +1,11 @@
+mlx
+mlx-lm
+datasets
+huggingface_hub
+sentence-transformers
+numpy
+pandas
+openpyxl
+jsonschema
+fastapi
+uvicorn

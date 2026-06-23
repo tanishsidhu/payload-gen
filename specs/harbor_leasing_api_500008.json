@@ -1,0 +1,164 @@
+{
+  "seed": 500008,
+  "spec": {
+    "api_name": "Harbor Leasing API",
+    "version": "1.2",
+    "endpoints": [
+      {
+        "operation": "create_asset",
+        "method": "POST",
+        "path": "/v2/create-asset/submit",
+        "fields": [
+          {
+            "name": "equipment_code",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "acquisition_cost",
+            "type": "integer",
+            "required": true,
+            "unit": "dollars"
+          },
+          {
+            "name": "details",
+            "type": "object",
+            "required": true,
+            "fields": [
+              {
+                "name": "acquisition_date",
+                "type": "date",
+                "required": true
+              },
+              {
+                "name": "asset_class",
+                "type": "enum",
+                "required": true,
+                "enum": [
+                  "vehicle",
+                  "equipment",
+                  "aircraft",
+                  "real_estate"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "operation": "book_lease",
+        "method": "POST",
+        "path": "/book-lease",
+        "fields": [
+          {
+            "name": "start_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "maturity_date",
+            "type": "date",
+            "required": false
+          },
+          {
+            "name": "lease_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "asset_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "rent_amount",
+            "type": "integer",
+            "required": true,
+            "unit": "dollars"
+          },
+          {
+            "name": "customer_name",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "operation": "post_receipt",
+        "method": "POST",
+        "path": "/v1/post-receipt/submit",
+        "fields": [
+          {
+            "name": "contract_ref",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "collection_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "details",
+            "type": "object",
+            "required": true,
+            "fields": [
+              {
+                "name": "source_ref",
+                "type": "string",
+                "required": false
+              },
+              {
+                "name": "receipt_amount",
+                "type": "integer",
+                "required": true,
+                "unit": "cents"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "operation": "amend_contract",
+        "method": "POST",
+        "path": "/v1/amend-contract",
+        "fields": [
+          {
+            "name": "value_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "lease_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "details",
+            "type": "object",
+            "required": true,
+            "fields": [
+              {
+                "name": "revised_clause",
+                "type": "string",
+                "required": false
+              },
+              {
+                "name": "amendment_type",
+                "type": "enum",
+                "required": true,
+                "enum": [
+                  "rate_change",
+                  "term_extension",
+                  "party_change",
+                  "covenant_update"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "spec_text": "API: Harbor Leasing API v1.2\n\nPOST /v2/create-asset/submit  (create_asset)\n  equipment_code (string, required)\n  acquisition_cost (integer, unit=dollars, required)\n  details (object, required):\n    acquisition_date (date, required)\n    asset_class (enum ['vehicle', 'equipment', 'aircraft', 'real_estate'], required)\n\nPOST /book-lease  (book_lease)\n  start_date (date, required)\n  maturity_date (date, optional)\n  lease_id (string, required)\n  asset_id (string, required)\n  rent_amount (integer, unit=dollars, required)\n  customer_name (string, required)\n\nPOST /v1/post-receipt/submit  (post_receipt)\n  contract_ref (string, required)\n  collection_date (date, required)\n  details (object, required):\n    source_ref (string, optional)\n    receipt_amount (integer, unit=cents, required)\n\nPOST /v1/amend-contract  (amend_contract)\n  value_date (date, required)\n  lease_id (string, required)\n  details (object, required):\n    revised_clause (string, optional)\n    amendment_type (enum ['rate_change', 'term_extension', 'party_change', 'covenant_update'], required)"
+}

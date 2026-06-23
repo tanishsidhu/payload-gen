@@ -1,0 +1,122 @@
+{
+  "seed": 500010,
+  "spec": {
+    "api_name": "BlueRock Funding API",
+    "version": "2.7",
+    "endpoints": [
+      {
+        "operation": "create_asset",
+        "method": "POST",
+        "path": "/create-asset/submit",
+        "fields": [
+          {
+            "name": "acquisition_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "asset_cost",
+            "type": "integer",
+            "required": true,
+            "unit": "cents"
+          },
+          {
+            "name": "asset_tag",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "category",
+            "type": "enum",
+            "required": true,
+            "enum": [
+              "vehicle",
+              "equipment",
+              "aircraft",
+              "real_estate"
+            ]
+          }
+        ]
+      },
+      {
+        "operation": "book_lease",
+        "method": "POST",
+        "path": "/v1/book-lease/submit",
+        "fields": [
+          {
+            "name": "maturity_date",
+            "type": "date",
+            "required": false
+          },
+          {
+            "name": "asset_ref",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "start_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "monthly_payment",
+            "type": "integer",
+            "required": true,
+            "unit": "dollars"
+          },
+          {
+            "name": "lessee_name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "contract_ref",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "operation": "amend_contract",
+        "method": "POST",
+        "path": "/api/amend-contract/submit",
+        "fields": [
+          {
+            "name": "revised_clause",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "agreement_no",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "details",
+            "type": "object",
+            "required": true,
+            "fields": [
+              {
+                "name": "effective_date",
+                "type": "date",
+                "required": true
+              },
+              {
+                "name": "change_type",
+                "type": "enum",
+                "required": true,
+                "enum": [
+                  "rate_change",
+                  "term_extension",
+                  "party_change",
+                  "covenant_update"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "spec_text": "API: BlueRock Funding API v2.7\n\nPOST /create-asset/submit  (create_asset)\n  acquisition_date (date, required)\n  asset_cost (integer, unit=cents, required)\n  asset_tag (string, required)\n  category (enum ['vehicle', 'equipment', 'aircraft', 'real_estate'], required)\n\nPOST /v1/book-lease/submit  (book_lease)\n  maturity_date (date, optional)\n  asset_ref (string, required)\n  start_date (date, required)\n  monthly_payment (integer, unit=dollars, required)\n  lessee_name (string, required)\n  contract_ref (string, required)\n\nPOST /api/amend-contract/submit  (amend_contract)\n  revised_clause (string, optional)\n  agreement_no (string, required)\n  details (object, required):\n    effective_date (date, required)\n    change_type (enum ['rate_change', 'term_extension', 'party_change', 'covenant_update'], required)"
+}

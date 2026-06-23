@@ -1,0 +1,150 @@
+{
+  "seed": 500003,
+  "spec": {
+    "api_name": "Atlas Asset API",
+    "version": "3.9",
+    "endpoints": [
+      {
+        "operation": "create_asset",
+        "method": "POST",
+        "path": "/create-asset",
+        "fields": [
+          {
+            "name": "acquisition_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "asset_class",
+            "type": "enum",
+            "required": true,
+            "enum": [
+              "vehicle",
+              "equipment",
+              "aircraft",
+              "real_estate"
+            ]
+          },
+          {
+            "name": "asset_cost",
+            "type": "integer",
+            "required": true,
+            "unit": "dollars"
+          },
+          {
+            "name": "asset_id",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "operation": "post_receipt",
+        "method": "POST",
+        "path": "/v2/post-receipt/execute",
+        "fields": [
+          {
+            "name": "agreement_no",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "cash_received",
+            "type": "integer",
+            "required": true,
+            "unit": "cents"
+          },
+          {
+            "name": "collection_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "payer_reference",
+            "type": "string",
+            "required": false
+          }
+        ]
+      },
+      {
+        "operation": "amend_contract",
+        "method": "POST",
+        "path": "/amend-contract",
+        "fields": [
+          {
+            "name": "effective_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "change_type",
+            "type": "enum",
+            "required": true,
+            "enum": [
+              "rate_change",
+              "term_extension",
+              "party_change",
+              "covenant_update"
+            ]
+          },
+          {
+            "name": "contract_ref",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "new_terms",
+            "type": "string",
+            "required": false
+          }
+        ]
+      },
+      {
+        "operation": "book_lease",
+        "method": "POST",
+        "path": "/v2/book-lease/execute",
+        "fields": [
+          {
+            "name": "contract_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "customer_name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "asset_ref",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "rent_amount",
+            "type": "integer",
+            "required": true,
+            "unit": "dollars"
+          },
+          {
+            "name": "metadata",
+            "type": "object",
+            "required": true,
+            "fields": [
+              {
+                "name": "end_date",
+                "type": "date",
+                "required": false
+              },
+              {
+                "name": "lease_start",
+                "type": "date",
+                "required": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "spec_text": "API: Atlas Asset API v3.9\n\nPOST /create-asset  (create_asset)\n  acquisition_date (date, required)\n  asset_class (enum ['vehicle', 'equipment', 'aircraft', 'real_estate'], required)\n  asset_cost (integer, unit=dollars, required)\n  asset_id (string, required)\n\nPOST /v2/post-receipt/execute  (post_receipt)\n  agreement_no (string, required)\n  cash_received (integer, unit=cents, required)\n  collection_date (date, required)\n  payer_reference (string, optional)\n\nPOST /amend-contract  (amend_contract)\n  effective_date (date, required)\n  change_type (enum ['rate_change', 'term_extension', 'party_change', 'covenant_update'], required)\n  contract_ref (string, required)\n  new_terms (string, optional)\n\nPOST /v2/book-lease/execute  (book_lease)\n  contract_id (string, required)\n  customer_name (string, required)\n  asset_ref (string, required)\n  rent_amount (integer, unit=dollars, required)\n  metadata (object, required):\n    end_date (date, optional)\n    lease_start (date, required)"
+}

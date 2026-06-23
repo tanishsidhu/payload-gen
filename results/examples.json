@@ -1,0 +1,74 @@
+{
+  "example_indices": [
+    0,
+    1
+  ],
+  "stages": {
+    "baseline": [
+      {
+        "label": "valid request (book lease)",
+        "test_index": 0,
+        "seed": 2000000,
+        "user_request": "I need to book lease: equipment code AST-7344, monthly payment of 2001764 cents, contract id LF-9037, lessee name Globex LLC, effective 2024-12-06, effective September 01, 2025. Also include in service date if possible.",
+        "expected_response": "{\"operation\": \"book_lease\", \"path\": \"/v1/book-lease/execute\", \"body\": {\"equipment_code\": \"AST-7344\", \"monthly_payment\": 2001764, \"contract_id\": \"LF-9037\", \"lessee_name\": \"Globex LLC\", \"metadata\": {\"commencement_date\": \"2024-12-06\", \"end_date\": \"2025-09-01\"}}}",
+        "model_response": "```json\n{\n  \"equipment_code\": \"AST-7344\",\n  \"monthly_payment\": 2001764,\n  \"contract_id\": \"LF-9037\",\n  \"lessee_name\": \"Globex LLC\",\n  \"metadata\": {\n    \"commencement_date\": \"2024-12-06\",\n    \"end_date\": \"2025-09-01\"\n  }\n}\n```",
+        "schema_valid": false,
+        "exact_match": false
+      },
+      {
+        "label": "impossible request (transfer ownership)",
+        "test_index": 1,
+        "seed": 2000001,
+        "user_request": "Please transfer ownership for contract LF-1650.",
+        "expected_response": "{\"refusal\": \"no endpoint supports this operation\"}",
+        "model_response": "{\"error\": \"Invalid amendment type. Please use one of the following: rate_change, term_extension, party_change, covenant_update.\"}",
+        "schema_valid": false,
+        "exact_match": false
+      }
+    ],
+    "training_iter_300": [
+      {
+        "label": "valid request (book lease)",
+        "test_index": 0,
+        "seed": 2000000,
+        "user_request": "I need to book lease: equipment code AST-7344, monthly payment of 2001764 cents, contract id LF-9037, lessee name Globex LLC, effective 2024-12-06, effective September 01, 2025. Also include in service date if possible.",
+        "expected_response": "{\"operation\": \"book_lease\", \"path\": \"/v1/book-lease/execute\", \"body\": {\"equipment_code\": \"AST-7344\", \"monthly_payment\": 2001764, \"contract_id\": \"LF-9037\", \"lessee_name\": \"Globex LLC\", \"metadata\": {\"commencement_date\": \"2024-12-06\", \"end_date\": \"2025-09-01\"}}}",
+        "model_response": "{\"operation\": \"book_lease\", \"path\": \"/v1/book-lease/execute\", \"body\": {\"equipment_code\": \"AST-7344\", \"monthly_payment\": 2001764, \"contract_id\": \"LF-9037\", \"lessee_name\": \"Globex LLC\", \"metadata\": {\"commencement_date\": \"2024-12-06\", \"end_date\": \"2025-09-01\"}}}",
+        "schema_valid": true,
+        "exact_match": true
+      },
+      {
+        "label": "impossible request (transfer ownership)",
+        "test_index": 1,
+        "seed": 2000001,
+        "user_request": "Please transfer ownership for contract LF-1650.",
+        "expected_response": "{\"refusal\": \"no endpoint supports this operation\"}",
+        "model_response": "{\"operation\": \"amend_contract\", \"path\": \"/v1/amend-contract\", \"body\": {\"contract_id\": \"LF-1650\", \"amendment_type\": \"party_change\"}}",
+        "schema_valid": false,
+        "exact_match": false
+      }
+    ],
+    "fine_tuned": [
+      {
+        "label": "valid request (book lease)",
+        "test_index": 0,
+        "seed": 2000000,
+        "user_request": "I need to book lease: equipment code AST-7344, monthly payment of 2001764 cents, contract id LF-9037, lessee name Globex LLC, effective 2024-12-06, effective September 01, 2025. Also include in service date if possible.",
+        "expected_response": "{\"operation\": \"book_lease\", \"path\": \"/v1/book-lease/execute\", \"body\": {\"equipment_code\": \"AST-7344\", \"monthly_payment\": 2001764, \"contract_id\": \"LF-9037\", \"lessee_name\": \"Globex LLC\", \"metadata\": {\"commencement_date\": \"2024-12-06\", \"end_date\": \"2025-09-01\"}}}",
+        "model_response": "{\"operation\": \"book_lease\", \"path\": \"/v1/book-lease/execute\", \"body\": {\"equipment_code\": \"AST-7344\", \"monthly_payment\": 2001764, \"contract_id\": \"LF-9037\", \"lessee_name\": \"Globex LLC\", \"metadata\": {\"commencement_date\": \"2024-12-06\", \"in_service_date\": \"2025-09-01\"}}}",
+        "schema_valid": true,
+        "exact_match": false
+      },
+      {
+        "label": "impossible request (transfer ownership)",
+        "test_index": 1,
+        "seed": 2000001,
+        "user_request": "Please transfer ownership for contract LF-1650.",
+        "expected_response": "{\"refusal\": \"no endpoint supports this operation\"}",
+        "model_response": "{\"refusal\": \"no endpoint supports this operation\"}",
+        "schema_valid": true,
+        "exact_match": true
+      }
+    ]
+  }
+}

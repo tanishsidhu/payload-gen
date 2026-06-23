@@ -1,0 +1,164 @@
+{
+  "seed": 500006,
+  "spec": {
+    "api_name": "Harbor Leasing API",
+    "version": "2.2",
+    "endpoints": [
+      {
+        "operation": "post_receipt",
+        "method": "POST",
+        "path": "/v2/post-receipt/execute",
+        "fields": [
+          {
+            "name": "collection_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "collected_amount",
+            "type": "integer",
+            "required": true,
+            "unit": "dollars"
+          },
+          {
+            "name": "details",
+            "type": "object",
+            "required": true,
+            "fields": [
+              {
+                "name": "payer_reference",
+                "type": "string",
+                "required": false
+              },
+              {
+                "name": "lease_id",
+                "type": "string",
+                "required": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "operation": "book_lease",
+        "method": "POST",
+        "path": "/book-lease/submit",
+        "fields": [
+          {
+            "name": "asset_ref",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "start_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "monthly_payment",
+            "type": "integer",
+            "required": true,
+            "unit": "dollars"
+          },
+          {
+            "name": "lessee_name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "payment_info",
+            "type": "object",
+            "required": true,
+            "fields": [
+              {
+                "name": "maturity_date",
+                "type": "date",
+                "required": false
+              },
+              {
+                "name": "lease_id",
+                "type": "string",
+                "required": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "operation": "amend_contract",
+        "method": "POST",
+        "path": "/v1/amend-contract",
+        "fields": [
+          {
+            "name": "contract_ref",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "revised_clause",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "modification_kind",
+            "type": "enum",
+            "required": true,
+            "enum": [
+              "rate_change",
+              "term_extension",
+              "party_change",
+              "covenant_update"
+            ]
+          },
+          {
+            "name": "value_date",
+            "type": "date",
+            "required": true
+          }
+        ]
+      },
+      {
+        "operation": "create_asset",
+        "method": "POST",
+        "path": "/v1/create-asset",
+        "fields": [
+          {
+            "name": "asset_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "category",
+            "type": "enum",
+            "required": true,
+            "enum": [
+              "vehicle",
+              "equipment",
+              "aircraft",
+              "real_estate"
+            ]
+          },
+          {
+            "name": "metadata",
+            "type": "object",
+            "required": true,
+            "fields": [
+              {
+                "name": "acquisition_cost",
+                "type": "integer",
+                "required": true,
+                "unit": "cents"
+              },
+              {
+                "name": "acquisition_date",
+                "type": "date",
+                "required": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "spec_text": "API: Harbor Leasing API v2.2\n\nPOST /v2/post-receipt/execute  (post_receipt)\n  collection_date (date, required)\n  collected_amount (integer, unit=dollars, required)\n  details (object, required):\n    payer_reference (string, optional)\n    lease_id (string, required)\n\nPOST /book-lease/submit  (book_lease)\n  asset_ref (string, required)\n  start_date (date, required)\n  monthly_payment (integer, unit=dollars, required)\n  lessee_name (string, required)\n  payment_info (object, required):\n    maturity_date (date, optional)\n    lease_id (string, required)\n\nPOST /v1/amend-contract  (amend_contract)\n  contract_ref (string, required)\n  revised_clause (string, optional)\n  modification_kind (enum ['rate_change', 'term_extension', 'party_change', 'covenant_update'], required)\n  value_date (date, required)\n\nPOST /v1/create-asset  (create_asset)\n  asset_id (string, required)\n  category (enum ['vehicle', 'equipment', 'aircraft', 'real_estate'], required)\n  metadata (object, required):\n    acquisition_cost (integer, unit=cents, required)\n    acquisition_date (date, required)"
+}

@@ -1,0 +1,30 @@
+# --- Python ---
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- OS / editor ---
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# --- Secrets ---
+.env
+*.key
+
+# --- ML artifacts ---
+# Keep the FINAL adapter (plug-and-play) but skip intermediate checkpoints.
+adapters/*_adapters.safetensors
+!adapters/adapters.safetensors
+
+# Large, deterministically regenerable training set.
+# Recreate with: python src/generator/build_dataset.py
+data/train.jsonl
+
+# Local run logs that aren't worth versioning.
+results/*.log

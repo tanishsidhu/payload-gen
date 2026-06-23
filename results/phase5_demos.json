@@ -1,0 +1,37 @@
+{
+  "demos": [
+    {
+      "case": "a_valid_request",
+      "test_index": 2,
+      "description": "Valid post_receipt request on an unseen spec",
+      "seed": 2000002,
+      "user_request": "Go ahead and post receipt \u2014 payment of four thousand six hundred twenty two dollars, source ref PAY-9576, lease id LF-5787, effective next Tuesday.",
+      "expected_response": "{\"operation\": \"post_receipt\", \"path\": \"/api/post-receipt/execute\", \"body\": {\"cash_received\": 4622, \"source_ref\": \"PAY-9576\", \"terms\": {\"lease_id\": \"LF-5787\", \"received_date\": \"2024-11-18\"}}}",
+      "model_response": "{\"operation\": \"post_receipt\", \"path\": \"/api/post-receipt/execute\", \"body\": {\"cash_received\": 4262, \"source_ref\": \"PAY-9576\", \"terms\": {\"lease_id\": \"LF-5787\", \"received_date\": \"2024-02-01\"}}}",
+      "schema_valid": true,
+      "exact_match": false
+    },
+    {
+      "case": "b_distractor_ignored",
+      "test_index": 0,
+      "description": "Valid book_lease; user mentions in_service_date (distractor)",
+      "seed": 2000000,
+      "user_request": "I need to book lease: equipment code AST-7344, monthly payment of 2001764 cents, contract id LF-9037, lessee name Globex LLC, effective 2024-12-06, effective September 01, 2025. Also include in service date if possible.",
+      "expected_response": "{\"operation\": \"book_lease\", \"path\": \"/v1/book-lease/execute\", \"body\": {\"equipment_code\": \"AST-7344\", \"monthly_payment\": 2001764, \"contract_id\": \"LF-9037\", \"lessee_name\": \"Globex LLC\", \"metadata\": {\"commencement_date\": \"2024-12-06\", \"end_date\": \"2025-09-01\"}}}",
+      "model_response": "{\"operation\": \"book_lease\", \"path\": \"/v1/book-lease/execute\", \"body\": {\"equipment_code\": \"AST-7344\", \"monthly_payment\": 2001764, \"contract_id\": \"LF-9037\", \"lessee_name\": \"Globex LLC\", \"metadata\": {\"commencement_date\": \"2024-12-06\", \"in_service_date\": \"2025-09-01\"}}}",
+      "schema_valid": true,
+      "exact_match": false
+    },
+    {
+      "case": "c_impossible_refusal",
+      "test_index": 1,
+      "description": "transfer_ownership \u2014 no endpoint in this spec",
+      "seed": 2000001,
+      "user_request": "Please transfer ownership for contract LF-1650.",
+      "expected_response": "{\"refusal\": \"no endpoint supports this operation\"}",
+      "model_response": "{\"refusal\": \"no endpoint supports this operation\"}",
+      "schema_valid": true,
+      "exact_match": true
+    }
+  ]
+}

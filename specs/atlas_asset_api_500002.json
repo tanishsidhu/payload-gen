@@ -1,0 +1,109 @@
+{
+  "seed": 500002,
+  "spec": {
+    "api_name": "Atlas Asset API",
+    "version": "3.4",
+    "endpoints": [
+      {
+        "operation": "book_lease",
+        "method": "POST",
+        "path": "/book-lease",
+        "fields": [
+          {
+            "name": "lease_end",
+            "type": "date",
+            "required": false
+          },
+          {
+            "name": "equipment_code",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "start_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "lease_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "monthly_payment",
+            "type": "integer",
+            "required": true,
+            "unit": "cents"
+          },
+          {
+            "name": "borrower_name",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "operation": "post_receipt",
+        "method": "POST",
+        "path": "/v1/post-receipt/submit",
+        "fields": [
+          {
+            "name": "lease_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "received_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "remitter_ref",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "collected_amount",
+            "type": "integer",
+            "required": true,
+            "unit": "cents"
+          }
+        ]
+      },
+      {
+        "operation": "amend_contract",
+        "method": "POST",
+        "path": "/v2/amend-contract",
+        "fields": [
+          {
+            "name": "revised_clause",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "posting_date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "agreement_no",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "modification_kind",
+            "type": "enum",
+            "required": true,
+            "enum": [
+              "rate_change",
+              "term_extension",
+              "party_change",
+              "covenant_update"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "spec_text": "API: Atlas Asset API v3.4\n\nPOST /book-lease  (book_lease)\n  lease_end (date, optional)\n  equipment_code (string, required)\n  start_date (date, required)\n  lease_id (string, required)\n  monthly_payment (integer, unit=cents, required)\n  borrower_name (string, required)\n\nPOST /v1/post-receipt/submit  (post_receipt)\n  lease_id (string, required)\n  received_date (date, required)\n  remitter_ref (string, optional)\n  collected_amount (integer, unit=cents, required)\n\nPOST /v2/amend-contract  (amend_contract)\n  revised_clause (string, optional)\n  posting_date (date, required)\n  agreement_no (string, required)\n  modification_kind (enum ['rate_change', 'term_extension', 'party_change', 'covenant_update'], required)"
+}
