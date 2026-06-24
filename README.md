@@ -1,5 +1,7 @@
 # Schema-Grounded Payload Generator (Asset-Finance)
 
+![Demo: natural-language request → retrieved spec → generated JSON payload](docs/demo.gif)
+
 A demonstration of how an enterprise can generate API payloads **on-prem**, using a small fine-tuned 3B model — **without relying on external AI services** for the core workflow.
 
 The API spec is always an input at inference time, never baked into model weights. The model learns a **skill** (read any spec → emit valid JSON), not a memorized API.
@@ -144,7 +146,7 @@ The repo is set up so you can explore without retraining. After clone, the repo 
 | `data/valid.jsonl`, `data/test.jsonl` | Run benchmark / baseline immediately |
 | `data/sample_deal.xlsx` | Layer B Excel demo |
 | `results/*.json` | Pre-computed baseline, benchmark, examples |
-| `README.md`, `BUILD_PLAN.md`, `PROJECT_SUMMARY.txt` | Docs and build log |
+| `docs/demo.gif` | Demo walkthrough (embedded above) |
 
 ### Not in git (and why)
 
@@ -155,6 +157,7 @@ The repo is set up so you can explore without retraining. After clone, the repo 
 | `adapters/0000*_adapters.safetensors` | Intermediate checkpoints during training | Only needed if you retrain |
 | `mlx-community/Llama-3.2-3B-Instruct-4bit` | Base model ~2GB | Auto-download on first `mlx_lm` command |
 | `results/*.log` | Local run logs | Regenerated when you train/eval |
+| `BUILD_PLAN.md`, `PROJECT_SUMMARY.txt` | Internal build notes | Local only; not in git |
 
 ### Three paths after clone
 
@@ -251,6 +254,7 @@ The architecture stays the same; each row is an incremental upgrade, not a redes
 
 ```
 payload-gen/
+├── docs/                  Demo GIF and assets
 ├── adapters/              LoRA weights (Layer C)
 ├── specs/                 API spec library (Layer A)
 ├── data/                  train / valid / test JSONL
@@ -264,9 +268,6 @@ payload-gen/
 ├── scripts/               baseline, benchmark, demo startup
 └── results/               baseline, benchmark, examples, training log
 ```
-
-Phase-by-phase build log: `PROJECT_SUMMARY.txt`  
-Full build instructions: `BUILD_PLAN.md`
 
 ---
 

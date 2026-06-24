@@ -28,3 +28,7 @@ data/train.jsonl
 
 # Local run logs that aren't worth versioning.
 results/*.log
+
+# Internal build notes (kept locally, not published).
+BUILD_PLAN.md
+PROJECT_SUMMARY.txt
