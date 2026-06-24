@@ -1,8 +1,8 @@
 # Schema-Grounded Payload Generator (Asset-Finance)
 
-![Demo: natural-language request → retrieved spec → generated JSON payload](docs/demo.gif)
-
 A demonstration of how an enterprise can generate API payloads **on-prem**, using a small fine-tuned 3B model — **without relying on external AI services** for the core workflow.
+
+![Demo: natural-language request → retrieved spec → generated JSON payload](docs/demo.gif)
 
 The API spec is always an input at inference time, never baked into model weights. The model learns a **skill** (read any spec → emit valid JSON), not a memorized API.
 
