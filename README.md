@@ -85,7 +85,7 @@ Eval uses `jsonschema` + exact JSON match — no human judgment. Test specs use 
 | fine-tuned-3B | seen (valid) | 100 | 96.0% | 53.0% | 100% | ~$0 |
 | Claude (frontier) | unseen | — | *not run* | *not run* | *not run* | ~$0.01* |
 
-\*Claude skipped in this run (no `ANTHROPIC_API_KEY`). Re-run with `python scripts/benchmark.py --claude-limit 50` for a three-way comparison. Win condition is **fine-tuned-3B near frontier on validity at a fraction of the cost**, not beating Claude on every field.
+\*Claude was skipped in this run. The idea of having Claude here is to define a win condition, which is that a **fine-tuned-3B can be near frontier on validity at a fraction of the cost**, not beating Claude on every field.
 
 **Distractor analysis (fine-tuned, unseen):** non-distractor exact match 50% vs distractor exact match 37% (13-point gap). Extra distractor training is optional, not urgent.
 
@@ -100,10 +100,8 @@ Knowing **when not to fine-tune** is as important as knowing when to.
 | Problem | Right tool | Why |
 |---|---|---|
 | **Documentation Q&A** | **RAG** | Knowledge changes daily; answers need traceability to source docs; no fixed output shape to score |
-| **Ticket dedup / related tickets** | **Retrieval + embeddings** | Similarity search over a changing corpus; no single "correct" JSON answer |
+| **Related tickets** | **Retrieval + embeddings** | Similarity search over a changing corpus; no single "correct" JSON answer |
 | **Payload generation** | **Fine-tune (Layer C only)** | Behavior not knowledge; output is mechanically verifiable; high volume → cost matters; on-prem compliance |
-
-Everything else in this project deliberately uses the **lighter** tool:
 
 | Layer | Tool | Why not fine-tune? |
 |---|---|---|
@@ -111,7 +109,7 @@ Everything else in this project deliberately uses the **lighter** tool:
 | Excel → fields (B) | Rules + fuzzy match | Deterministic; bank users already have spreadsheets |
 | Multi-step planning | Simple rules (v1) | Shows the seam exists; full planner is a separate product |
 
-**Why this section matters:** Senior engineers are judged on **problem decomposition**, not "I fine-tuned a model." The thesis is: *only Layer C earned fine-tuning* — everything else is retrieval, mapping, or orchestration.
+**Why this section matters:** The thesis is: *only Layer C earned fine-tuning* — everything else is retrieval, mapping, or orchestration.
 
 ---
 
@@ -126,9 +124,7 @@ For inference, the full demo runs locally:
 | Layer C payload model | `mlx_lm.server` + LoRA adapter (local) | No |
 | Orchestration app | FastAPI (local) | No |
 
-A MacBook (M-series, 16GB) is sufficient for demo and moderate volume. Production would use the same pattern on internal GPU servers — still no data leaving the network.
-
-Optional: Claude in `scripts/benchmark.py` is **eval-only** for comparison, not part of the product path.
+A MacBook Air (M5, 16GB) is sufficient for demo and moderate volume. Production would use the same pattern on internal GPU servers — still no data leaving the network.
 
 ---
 
@@ -157,7 +153,6 @@ The repo is set up so you can explore without retraining. After clone, the repo 
 | `adapters/0000*_adapters.safetensors` | Intermediate checkpoints during training | Only needed if you retrain |
 | `mlx-community/Llama-3.2-3B-Instruct-4bit` | Base model ~2GB | Auto-download on first `mlx_lm` command |
 | `results/*.log` | Local run logs | Regenerated when you train/eval |
-| `BUILD_PLAN.md`, `PROJECT_SUMMARY.txt` | Internal build notes | Local only; not in git |
 
 ### Three paths after clone
 
@@ -234,7 +229,7 @@ See **Cloning this repo** above for what's included vs. what you need to regener
 
 ## Known limitations & improvements (when needed)
 
-These are **documented gaps**, not surprises. Address them when production requirements justify the effort.
+These are **documented gaps**, not surprises.
 
 | Area | Current state | Improvement (when needed) |
 |---|---|---|
@@ -244,7 +239,6 @@ These are **documented gaps**, not surprises. Address them when production requi
 | **Orchestration** | Rule-based multi-step only | Claude/rules engine for complex workflows (still not fine-tune) |
 | **Security / ops** | Demo has no auth, audit, or rate limits | Standard enterprise hardening |
 | **Claude benchmark** | Not run in default eval | Set `ANTHROPIC_API_KEY` for frontier comparison |
-| **Multi-tenant specs** | Flat `specs/` folder | Vector DB + versioning + access control |
 
 The architecture stays the same; each row is an incremental upgrade, not a redesign.
 
@@ -294,6 +288,4 @@ python src/mapping/excel_map.py
 
 ## Governing idea
 
-**The spec is always an input, never memorized.** We prove the model learned a skill by testing on specs generated with a seed range it never saw in training (`2_000_000+` vs train `1_000–6_999`). If the fine-tuned model succeeds there, it read the spec — it didn't recall a training example.
-
-That is the difference between a demo that impresses and one that holds up under scrutiny.
+**The spec is always an input, never memorized.** The model learned a skill by testing on specs generated with a seed range it never saw in training (`2_000_000+` vs train `1_000–6_999`). If the fine-tuned model succeeds there, it read the spec — it didn't recall a training example.
